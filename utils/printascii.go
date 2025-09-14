@@ -15,17 +15,17 @@ func PrintAscii(input string, array []string) string {
 	for i := 0; i < len(processed); i++ {
 		if processed[i] == '\n' {
 			if str != "" {
-				arr = append(arr, str)
+				arr = append(arr, strings.TrimSpace(str))
 				str = ""
 			}
-			arr = append(arr, "\n")
+			arr = append(arr, strings.TrimSpace(str))
 		} else {
 			str += string(processed[i])
 		}
 	}
 
 	if str != "" {
-		arr = append(arr, str)
+		arr = append(arr, strings.TrimSpace(str))
 	}
 
 	// handle if only new lines included
@@ -37,9 +37,10 @@ func PrintAscii(input string, array []string) string {
 		newline += "\n"
 		if i == len(arr)-1 {
 			fmt.Print(newline)
-			os.Exit(0)
+			os.Exit(1)
 		}
 	}
+
 
 	result := ""
 	for i := 0; i < len(arr); i++ {
