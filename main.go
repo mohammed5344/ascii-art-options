@@ -1,16 +1,19 @@
 package main
 
 import (
-	"asciiartofs/utils"
+	"asciiartoptions/colorChange"
+	"asciiartoptions/justify"
+	"asciiartoptions/output"
+	"asciiartoptions/utils"
 	"fmt"
 	"os"
 )
 
 func main() {
 	args := os.Args[1:]
-		/*ValidInput function will check that the input is valid and if so will return
+	/*ValidInput function will check that the input is valid and if so will return
 	the input string and the banner */
-	isValid, input, banner, _ := utils.ValidInput(args)
+	isValid, input, banner, inputIndex := utils.ValidInput(args)
 	if !isValid {
 		fmt.Println("input is invalid!")
 		fmt.Println("Correct Usage: go run . [OPTION] <string> [BANNER]")
@@ -28,8 +31,11 @@ func main() {
 			os.Exit(0)
 		}
 	}
-	array := utils.Splice(banner)
-	result := utils.PrintAscii(input, array)
-	fmt.Println(result)
 
+	array := utils.Splice(banner)
+	ansiCode, target := colorChange.Color(args, input)
+	result := utils.PrintAscii(input, array, target, ansiCode)
+	result = justify.Justify(args[0:inputIndex],array, result, input, target, ansiCode)
+	output.Output(result, args, inputIndex)
+	fmt.Println(result)
 }
